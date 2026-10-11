@@ -1,0 +1,12 @@
+{
+  "name": "project-rain-oss-reconstruction",
+  "private": true,
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "audit": "node tools/audit-requires.js",
+    "registry": "node tools/gen-registry.js",
+    "build": "node tools/gen-registry.js && node tools/audit-requires.js && node tools/bundle.js",
+    "test": "node --test tools/tests/*.test.js",
+    "check:luau": "node tools/check-luau.js"
+  }
+}

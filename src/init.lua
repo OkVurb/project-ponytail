@@ -50,7 +50,7 @@ task.spawn(xpcall, handle_dev_tools, warn);
 
 env = getgenv();
 if not LPH_OBFUSCATED then
-    require(LPH_ENCSTR("@src/utility/librarys/luraph_sdk"));
+    pcall(function() require(LPH_ENCSTR("@src/utility/librarys/luraph_sdk")); end);
 end; 
 
 xpcall(function()
@@ -152,7 +152,7 @@ env.Logger = require(LPH_ENCSTR("@src/utility/logger"));
 aztup.automation = require(LPH_ENCSTR("@src/automation/loader"));
 env.fflags = require("@src/utility/fflags");
 
-if fflags:get("auto_load") and script_key then
+if fflags:get("auto_load") then
     require("@src/utility/setup_auto_load");
 end
 
