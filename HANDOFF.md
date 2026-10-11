@@ -7,8 +7,8 @@ Updated: 2026-10-11. This records completed local work and its verification boun
 - Repository: [OkVurb/project-ponytail](https://github.com/OkVurb/project-ponytail).
 - Working folder: `C:\Users\cr0od\OneDrive\Documents\GitHub\project-ponytail`.
 - Branch: `codex/handoff-initialization`, not merged into `master`.
-- Last pushed commit: [`7620ad6`](https://github.com/OkVurb/project-ponytail/commit/7620ad6e7de5741c33372c74189266de7bd2c93c), the Project Ponytail rename. Initialization was previously pushed as [`df75898`](https://github.com/OkVurb/project-ponytail/commit/df758981dfd265fae52bacbbc262e113d9a5dcff).
-- The latest suggested follow-ups described below are local and uncommitted. They have not been pushed or merged. No pull request was created.
+- Published code commit: [`bb2d649`](https://github.com/OkVurb/project-ponytail/commit/bb2d6494732ca3fb7c7a311f13f56d8fdd9311c4), including the launcher and suggested follow-ups below. Initialization was previously pushed as [`df75898`](https://github.com/OkVurb/project-ponytail/commit/df758981dfd265fae52bacbbc262e113d9a5dcff).
+- The remote branch SHA matches the code commit. Nine critical source/asset files fetched anonymously over HTTPS match committed Git blobs byte-for-byte. All 277 manifest module targets and 17 assets exist in that published tree. No merge or pull request was created.
 - Work originally continued from the Downloads handoff and the user's baseline commit `6633f27`.
 
 ## Latest suggested follow-ups
@@ -40,7 +40,7 @@ The watcher never plays, stops or changes game animations. Hitbox and offset rem
 
 ## Earlier completed work
 
-The later launcher request added `executor.lua`. Copy the latest generated bundle into the executor's readfile workspace as `project_ponytail_bundle.lua`, then paste this short launcher. It waits for the game, reads the local bundle and reports read/compile failures. It does not use the original Project Rain key or service. Local mocked launcher checks pass; no executor execution was performed. The launcher and current follow-ups remain uncommitted and unpushed.
+The later launcher request added `executor.lua`. Copy the latest generated bundle into the executor's readfile workspace as `project_ponytail_bundle.lua`, then paste this short launcher. It waits for the game, reads the local bundle and reports read/compile failures. It does not use the original Project Rain key or service. Local mocked launcher checks pass; no executor execution was performed. The launcher and current follow-ups are published in the code commit above. INSTALL.md also contains a commit-pinned remote launcher that requires no local bundle copy.
 
 - **Initialization:** Key-free startup shim, shared globals, early Feature constructor and safe timing callbacks. Local OSS identity is not paid access or authenticated private access.
 - **Module loading:** Shared source/bundle runtime, native Roblox forwarding, multiple/nil returns, caching, discovery, circular-import errors and retry after failed imports.
@@ -76,7 +76,7 @@ Runtime tests execute actual selected source factories against explicit Roblox G
 
 - No live executor boot, real GUI rendering, game remotes, refresh/reset or teleport session was tested. Real EncodingService decoding, native imports and setfenv/getfenv availability also require the intended runtime.
 - The private base timing database is still absent. Public historical maps may be stale. Templates and timing coverage are not independently calibrated.
-- The default loader URL still targets `master`. The earlier fixes are on the published review branch; current follow-ups exist only locally. Use the local rebuilt bundle to include them until publication. A remote source URL must point to a trusted published revision containing all required files.
+- The default loader URL still targets `master`. Use the commit-pinned source URL in INSTALL.md to include the published review-branch changes. Public raw-file retrieval was verified, but full source-loader execution in an executor was not.
 - `dist/` and `.tools/` are ignored. Generated bundles and downloaded Luau binaries are not automatically published.
 - Do not hide startup failures by removing the original hook failure guard. Record actual warnings. Passing local checks does not establish account safety.
 

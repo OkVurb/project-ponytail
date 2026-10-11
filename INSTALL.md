@@ -54,16 +54,20 @@ The code targets Deepwoken and executor APIs. It is not an ordinary Roblox Studi
 
 Root `loader.lua` fetches the manifest, shared runtime, modules, and assets from a published repository. Its default URL uses this repository's `master` branch, not `main`.
 
-**Pushing a review branch does not update the default `master` URL. Remote fetching and live executor behavior have not been verified.** Point the source URL at your published reviewed branch or commit before using the remote entry point. Prefer a trusted commit-pinned base URL so a running session cannot mix changing revisions.
+**Pushing a review branch does not update the default `master` URL.** Critical public raw files at the code commit below were fetched and checked against Git blobs. Live executor behavior remains unverified. Set the source URL before loading the remote entry point so it does not fetch old modules from `master`.
 
-To use your published revision, replace the example placeholders below:
+Paste this launcher to use the published follow-ups at their fixed code revision. It requires no original script key and no local bundle copy:
 
 ```lua
-getgenv().PROJECT_RAIN_SOURCE_URL = "https://raw.githubusercontent.com/OWNER/REPOSITORY/COMMIT/";
-local source = game:HttpGet(getgenv().PROJECT_RAIN_SOURCE_URL .. "loader.lua");
-local chunk, reason = loadstring(source);
-assert(chunk, reason);
-chunk();
+repeat task.wait() until game:IsLoaded();
+getgenv().PROJECT_RAIN_SOURCE_URL =
+    "https://raw.githubusercontent.com/OkVurb/project-ponytail/bb2d6494732ca3fb7c7a311f13f56d8fdd9311c4/";
+local run, reason = loadstring(
+    game:HttpGet(getgenv().PROJECT_RAIN_SOURCE_URL .. "loader.lua"),
+    "@ProjectPonytail"
+);
+assert(run, reason);
+run();
 ```
 
 This executes remote code. Only point it at source you trust and reviewed. The source loader also configures its own teleport reload URL.

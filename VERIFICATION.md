@@ -1,6 +1,6 @@
 # Handoff verification
 
-Local follow-ups checked on 2026-10-11 against pushed rename commit `7620ad6`. Original baseline: user commit `6633f27` on `master`. The current follow-ups are local and uncommitted. Publishing a Git branch does not verify deployment or live executor behavior; no live executor session was performed.
+Follow-ups checked and published on 2026-10-11 as code commit `bb2d6494732ca3fb7c7a311f13f56d8fdd9311c4` on `codex/handoff-initialization`. Original baseline: user commit `6633f27` on `master`. The remote branch SHA matches the published commit. Publishing a Git branch does not verify live executor behavior; no live executor session was performed.
 
 ## Local results
 
@@ -17,6 +17,7 @@ Local follow-ups checked on 2026-10-11 against pushed rename commit `7620ad6`. O
 | Bundled assets | 17; byte-exact round trips |
 | Original hook implementation | Unchanged from HEAD, ignoring Git line endings |
 | Diff whitespace | `git diff --check` passes |
+| Public source publication | Nine critical raw files fetched over HTTPS match Git blobs; all 277 manifest modules and 17 assets exist in the published tree |
 
 Node 24.19.0 and official Luau 0.742 were used. The runtime test executes the actual reconstructed runtime and selected source modules with explicit Roblox mocks, not the entire game initialization.
 
@@ -36,7 +37,7 @@ The local executor launcher is also syntax checked and exercised with mocks for 
 | T4 Teleport autoload | Supported queue API and explicit trusted HTTPS loader URL | Live teleport not tested |
 | T5 Refresh | Reset signal, combat guard, bounded respawn wait, position restoration | Lifecycle/race mock tested; live reset not tested |
 | T6 Timing builder | Draggable action timeline, exact-time controls, read-only watcher, JSON editing and saved custom lookup | Actual selected sources exercised with mocks; live rendering and calibration not tested |
-| T7 Source loader | Manifest-driven imports and shared runtime; buffer-safe asset encoding | Shared runtime mock tested; remote deployment/fetch path not tested |
+| T7 Source loader | Manifest-driven imports and shared runtime; buffer-safe asset encoding | Shared runtime mock tested; critical public raw files fetched; end-to-end executor fetching/decoding not tested |
 | T8 Init edits | SDK failure warns; autoload has no key gate; hook failure guard preserved | Syntax and unchanged hook checked; live boot not tested |
 | T9 Menu loader | Returned UI initializer is called; existing menu Start remote used | Syntax checked; menu UI/remote not tested live |
 | T10 Dependency audit | Source literals/macros/comments and available assets checked | Audit and tokenizer fixtures pass; not a full Luau type checker |
@@ -51,7 +52,7 @@ Additional stripped static dependencies resolve through the custom timing store 
 
 The review covered source URL selection, shared runtime/cache behavior, feature lifecycle callers, initialization order, menu/refresh contracts, timing schema/storage and their consumers. It found unwired public maps and validation gaps, fixed in this follow-up. The original hook source is unchanged. The static require graph has no known literal cycles, but dynamic or cross-coroutine imports still need runtime verification.
 
-Local checks pass; this is not live release approval. The default source URL still targets `master`, not the review branch or these uncommitted changes. `setfenv`/`getfenv`, native imports, buffer/Zstandard services and the game-specific `player.Kill` reset contract remain executor-dependent. No merge or push was performed for this follow-up.
+Local checks pass; this is not live release approval. The default source URL still targets `master`, not the published review branch. INSTALL.md supplies a commit-pinned override for the published changes. `setfenv`/`getfenv`, native imports, buffer/Zstandard services and the game-specific `player.Kill` reset contract remain executor-dependent. This follow-up was pushed, but not merged.
 
 ## Remaining live acceptance gates
 
@@ -63,7 +64,7 @@ Local checks pass; this is not live release approval. The default source URL sti
 - Check the builder at the intended viewport size, including mouse/touch interaction. Confirm already-playing tracks, new Animators after respawn, logger Load Track, playheads, and no duplicate observations after close/reopen. Confirm observing a track never changes its playback or overwrites dirty JSON.
 - Investigate game-specific feature failures without removing the original hook failure guard. That guard does not establish safety from detection or penalties.
 
-No live-boot, full feature compatibility, complete timing coverage, or deployment claim is made.
+Only Git publication and the public raw-file checks above are confirmed. No live-boot, full feature compatibility or complete timing coverage claim is made.
 
 To repeat local checks from the repository root:
 
