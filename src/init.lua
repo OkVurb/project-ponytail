@@ -51,7 +51,7 @@ task.spawn(xpcall, handle_dev_tools, warn);
 env = getgenv();
 if not LPH_OBFUSCATED then
     local ok, err = pcall(require, LPH_ENCSTR("@src/utility/librarys/luraph_sdk"));
-    if not ok then warn("[Project Rain] Optional SDK: " .. tostring(err)); end;
+    if not ok then warn("[Project Ponytail] Optional SDK: " .. tostring(err)); end;
 end; 
 
 xpcall(function()
@@ -172,7 +172,7 @@ local success, result = pcall(function()
 end);
 
 if not success or not result then 
-    return game:GetService("Players").LocalPlayer:Kick("[pr] failed to hook, kicking to prevent bans\n" .. tostring(result))
+    return game:GetService("Players").LocalPlayer:Kick("[Project Ponytail] failed to hook, kicking to prevent bans\n" .. tostring(result))
 end; 
 
 do 
@@ -313,7 +313,7 @@ require("@src/features/visuals/base_esp")();
 
 if not fflags:get("dont_notify_on_first_exec") and aztup.silent_mode then
     if not persistent_data:get("has_executed_before") then
-        messagebox("You have 'Silent Mode' enabled, Which means you wont see the UI until you open it with the keybind & have extra anti PC check features, If you would like to disable this, Go to UI settings and disable it, This notification is disablable in the fast flags area of UI", "Project Rain", 0)
+        messagebox("You have 'Silent Mode' enabled, Which means you wont see the UI until you open it with the keybind & have extra anti PC check features, If you would like to disable this, Go to UI settings and disable it, This notification is disablable in the fast flags area of UI", "Project Ponytail", 0)
     end;
     
     persistent_data:set("has_executed_before", true); 

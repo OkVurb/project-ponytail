@@ -1,6 +1,6 @@
 # Handoff verification
 
-Local reconstruction checked on 2026-10-11. Baseline: user commit `6633f27` on `master`. Checks were completed before publication. Publishing a Git branch does not verify deployment or live executor behavior; no live executor session was performed.
+Local reconstruction checked on 2026-10-11. Baseline: user commit `6633f27` on `master`. The reconstruction was checked before its earlier publication; the Project Ponytail rename was checked separately before publication. Publishing a Git branch does not verify deployment or live executor behavior; no live executor session was performed.
 
 ## Local results
 
@@ -11,14 +11,14 @@ Local reconstruction checked on 2026-10-11. Baseline: user commit `6633f27` on `
 | Feature manifest | 156 candidates, not a live registration count |
 | Static module/asset references | 193 checked; no missing targets |
 | Dynamic/native calls | 10 remain runtime-dependent |
-| Node tests | 8 passed; no failures or skips |
+| Node tests | 9 passed; no failures or skips |
 | Official Luau syntax check | 278 files; no failures |
 | Original hook implementation | Unchanged from HEAD, ignoring Git line endings |
 | Diff whitespace | `git diff --check` passes |
 
 Node 24.19.0 and official Luau 0.742 were used. The runtime test executes the actual reconstructed runtime and selected source modules with explicit Roblox mocks, not the entire game initialization.
 
-Covered regressions: native require forwarding, multiple and nil returns, caching, alias resolution, circular imports, retry after import failure, shared globals, module discovery, feature registration after an import failure, idempotent connection lifecycle, asset byte round trips, registry preservation, deterministic bundling, timing validation/storage/reload, and an older refresh timeout not clearing a newer request.
+Covered regressions: Project Ponytail titles and metadata, unchanged legacy save paths and loader settings, regular-build gates under new and legacy names, native require forwarding, multiple and nil returns, caching, alias resolution, circular imports, retry after import failure, shared globals, module discovery, feature registration after an import failure, idempotent connection lifecycle, asset byte round trips, registry preservation, deterministic bundling, timing validation/storage/reload, and an older refresh timeout not clearing a newer request.
 
 ## Handoff checklist
 

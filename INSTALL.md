@@ -1,4 +1,4 @@
-# Project Rain OSS setup
+# Project Ponytail setup
 
 This reconstructs the released source's initialization and build contracts. It does not recover private data, authenticate with Luarmor, or prove compatibility with a live executor. See [VERIFICATION.md](VERIFICATION.md) for the checked and unchecked parts.
 
@@ -18,7 +18,7 @@ npm test
 npm run check:luau
 ```
 
-The build regenerates `module-manifest.json` and `src/features/manifest.lua`, checks source dependencies, then writes `dist/project_rain_bundle.lua`. It never rewrites the feature loader. The bundle includes the available assets as Zstandard-compressed, base64-encoded strings. Rebuild after changing source or assets.
+The build regenerates `module-manifest.json` and `src/features/manifest.lua`, checks source dependencies, then writes `dist/project_ponytail_bundle.lua`. It never rewrites the feature loader. The bundle includes the available assets as Zstandard-compressed, base64-encoded strings. Rebuild after changing source or assets.
 
 `dist/` and `.tools/` are ignored by Git. The generated manifests belong with the source if you publish it.
 
@@ -34,7 +34,7 @@ Without the interpreter, the runtime test is explicitly skipped. Without the com
 
 ### Local bundle
 
-Open the generated `dist/project_rain_bundle.lua` in your executor's script editor and execute that file. Do not execute `src/init.lua` by itself. The bundle supplies the shared module environment, native ModuleScript forwarding, multi-return module cache, module discovery, and assets.
+Open the generated `dist/project_ponytail_bundle.lua` in your executor's script editor and execute that file. Do not execute `src/init.lua` by itself. The bundle supplies the shared module environment, native ModuleScript forwarding, multi-return module cache, module discovery, and assets.
 
 The code targets Deepwoken and executor APIs. It is not an ordinary Roblox Studio LocalScript. The Rojo map is only a source layout for inspecting the tree in Studio.
 
@@ -57,6 +57,10 @@ chunk();
 This executes remote code. Only point it at source you trust and reviewed. The source loader also configures its own teleport reload URL.
 
 For a bundle, teleport autoload remains disabled unless you explicitly set `getgenv().PROJECT_RAIN_LOADER_URL` to a trusted HTTPS URL serving your reviewed executable bundle or source loader. The existing autoload preference and a supported teleport-queue API must also be available.
+
+## Saved-data compatibility
+
+The visible name is Project Ponytail. Existing `Project Rain/` save folders, migration filenames, internal identifiers, and `PROJECT_RAIN_SOURCE_URL` / `PROJECT_RAIN_LOADER_URL` settings remain unchanged so existing files and loaders keep working. Path hints still show the real legacy folders. The existing remote preset-config URL is unchanged; no replacement website, invite, or logo is assumed.
 
 ## Required capabilities
 
@@ -92,4 +96,4 @@ The original `rw_timings` loader remains separate and can execute Lua timing fil
 - The missing Brayden portrait is optional and is skipped with a warning unless you provide the expected local image. The unused missing Spotify import was removed.
 - A failed feature import is reported and skipped. Successful initialization does not imply that every original feature works with today's game.
 
-Project Rain branding and the [original release](https://github.com/unionizing/project-rain-oss) are preserved. Reconstruction references include [cutegirlnkcw/project-rain-oss](https://github.com/cutegirlnkcw/project-rain-oss) and [beyondthetowers/project-rain](https://github.com/beyondthetowers/project-rain). These are references, not claims that private modules were recovered.
+Project Ponytail is based on the [original Project Rain release](https://github.com/unionizing/project-rain-oss). Reconstruction references include [cutegirlnkcw/project-rain-oss](https://github.com/cutegirlnkcw/project-rain-oss) and [beyondthetowers/project-rain](https://github.com/beyondthetowers/project-rain). These are references, not claims that private modules were recovered.

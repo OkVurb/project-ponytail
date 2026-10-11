@@ -19,7 +19,7 @@ return function(config)
         id = id:gsub("%.lua$", "");
         if known[id] then return id; end;
         if known[id .. "/init"] then return id .. "/init"; end;
-        error("[Project Rain] Unknown module: " .. id, 3);
+        error("[Project Ponytail] Unknown module: " .. id, 3);
     end;
     local function project_require(id)
         if type(id) ~= "string" or id:sub(1, 5) ~= "@src/" then
@@ -28,7 +28,7 @@ return function(config)
         id = normalize(id);
         if cache[id] then return table.unpack(cache[id], 1, cache[id].n); end;
         local owner = coroutine.running();
-        if loading[id] == owner then error("[Project Rain] Circular require: " .. id, 2); end;
+        if loading[id] == owner then error("[Project Ponytail] Circular require: " .. id, 2); end;
         while loading[id] do
             assert(host.task and host.task.wait, "Concurrent require needs task.wait");
             host.task.wait();
@@ -42,7 +42,7 @@ return function(config)
             return factory();
         end));
         loading[id] = nil;
-        if not values[1] then error("[Project Rain] " .. id .. ": " .. tostring(values[2]), 2); end;
+        if not values[1] then error("[Project Ponytail] " .. id .. ": " .. tostring(values[2]), 2); end;
         local result = { n = values.n - 1 };
         for i = 2, values.n do result[i - 1] = values[i]; end;
         if result.n == 0 then result = table.pack(true); end;

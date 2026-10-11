@@ -17,7 +17,7 @@ return function()
     local title = Instance.new("TextLabel");
     title.Size = UDim2.new(1, 0, 0, 40);
     title.BackgroundTransparency = 1;
-    title.Text = "Project Rain";
+    title.Text = "Project Ponytail";
     title.TextColor3 = Color3.fromRGB(240, 240, 240);
     title.Font = Enum.Font.GothamBold;
     title.TextSize = 20;
@@ -42,6 +42,6 @@ return function()
             assert(start, "StartMenu.Start is unavailable; use the normal game menu.");
             start:FireServer();
         end);
-        if not ok then warn("[Project Rain] Menu: " .. tostring(err)); end;
+        if not ok then warn("[Project Ponytail] Menu: " .. tostring(err)); end;
     end);
 end;

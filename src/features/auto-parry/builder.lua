@@ -50,7 +50,7 @@ local function ensure_ui()
     frame.Parent = gui;
     local limit = Instance.new("UISizeConstraint", frame);
     limit.MaxSize = Vector2.new(760, 520);
-    local title = text_object("TextLabel", frame, "Project Rain | Custom Timing JSON Editor");
+    local title = text_object("TextLabel", frame, "Project Ponytail | Custom Timing JSON Editor");
     title.Size = UDim2.new(1, -44, 0, 30);
     local close = text_object("TextButton", frame, "X");
     close.Size = UDim2.fromOffset(40, 30);

@@ -18,13 +18,11 @@ return {
                                 description = message,
                                 color = 6724044,
                                 author = {
-                                    name = ".gg/project-rain",
-                                    icon_url = "https://cdn.discordapp.com/attachments/1211502078200127529/1464075011550613588/PRLOGO.png"
+                                    name = "Project Ponytail",
                                 }
                             }
                         },
-                        username = "Project Rain",
-                        avatar_url = "https://cdn.discordapp.com/attachments/1211502078200127529/1464075011550613588/PRLOGO.png",
+                        username = "Project Ponytail",
                         attachments = {},
                         flags = 4096
                     })

@@ -48,6 +48,7 @@ assert(#runtime.list_modules("*") == 8);
 assert(runtime.env.inline_asset_b96("@assets/x") == "encoded");
 runtime.env.inline_asset_b96("@assets/x"); assert(asset_calls == 1);
 assert(runtime.require("@src/luarmor_init_script") == true);
+assert(global.LRM_ScriptName == "Project Ponytail", "Default script name must match the new branding");
 assert(global.is_depths and not global.is_chime and global.is_regular and global.place_name == "The Depths");
 assert(global.Feature and type(global.list_modules) == "function");
 assert(type(global.load_timings) == "function" and #global.timing_names() == 0);
@@ -132,4 +133,9 @@ delayed[2](); assert(refresh()); delayed[3]();
 global.EffectReplicator = { FindEffect = function() return true; end };
 assert(not refresh(), "Combat blocks refresh"); global.EffectReplicator = nil;
 global.replicatesignal = nil; assert(not refresh(), "Missing reset capability must not kill the player");
+for _, name in ipairs({ "Project Rain", "testing", "Project Ponytail" }) do
+    global.LRM_ScriptName = name;
+    factories["@src/globals"]();
+    assert(global.is_regular == (name ~= "testing"), "Renaming must preserve regular-build gates and legacy names");
+end;
 print("Runtime mock checks passed");

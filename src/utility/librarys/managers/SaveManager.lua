@@ -537,8 +537,8 @@ local SaveManager = {} do
 
 				if silent_val then
 					Logger:long_notify("Delete 'workspace/Project Rain/silent_mode_toggle' to turn this off.");
-				    messagebox("You have 'Silent Mode' enabled, Which means you wont see the UI until you open it with the keybind & have extra anti PC check features, If you would like to disable this, Go to UI settings and disable it, This notification is disablable in the fast flags area of UI", "Project Rain", 0)
-					messagebox("'Silent Mode' will invalidate any bug reports or support, It will disable notifications (including mod detector) which are a core part of the script as a extra side effect.", "Project Rain", 0)
+				    messagebox("You have 'Silent Mode' enabled, Which means you wont see the UI until you open it with the keybind & have extra anti PC check features, If you would like to disable this, Go to UI settings and disable it, This notification is disablable in the fast flags area of UI", "Project Ponytail", 0)
+					messagebox("'Silent Mode' will invalidate any bug reports or support, It will disable notifications (including mod detector) which are a core part of the script as a extra side effect.", "Project Ponytail", 0)
 				else
 					aztup.silent_mode = false;
 					Logger:long_notify("Disabled silent mode. I now have a voice outside of popups.");

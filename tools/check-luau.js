@@ -10,7 +10,7 @@ if (!fs.existsSync(executable)) {
 }
 const files = [...inventory().map(item => item.file), path.join(root, 'loader.lua'), path.join(root, 'tools/runtime.lua'),
   ...walk(path.join(root, 'assets')).filter(file => file.endsWith('.lua'))];
-const output = path.join(root, 'dist/project_rain_bundle.lua');
+const output = path.join(root, 'dist/project_ponytail_bundle.lua');
 if (fs.existsSync(output)) files.push(output);
 let failures = 0;
 for (const file of files) {

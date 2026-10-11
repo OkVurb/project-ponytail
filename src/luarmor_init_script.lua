@@ -1,7 +1,7 @@
 -- OSS compatibility only. This does not authenticate with Luarmor.
 local env = getgenv();
 env.LPH_OBFUSCATED = false;
-env.LRM_ScriptName = env.LRM_ScriptName or "Project Rain";
+env.LRM_ScriptName = env.LRM_ScriptName or "Project Ponytail";
 env.script_key = env.script_key or "no-key";
 env.luarmor_preload_time = tick();
 env.luarmor_preload_time_debug = env.luarmor_preload_time;
@@ -17,6 +17,6 @@ if env.allowed_to_load_timings == nil then env.allowed_to_load_timings = true; e
 if env.can_edit_internal_timings == nil then env.can_edit_internal_timings = false; end;
 env.timing_names = function() return {}; end;
 env.effect_names = {};
-env.load_timings = function() warn("[Project Rain] Timing handler is not ready."); end;
+env.load_timings = function() warn("[Project Ponytail] Timing handler is not ready."); end;
 assert(type(list_modules) == "function", "Use loader.lua or the generated bundle; module discovery is required.");
 return true;

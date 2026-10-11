@@ -3,11 +3,11 @@ local env = getgenv();
 local url = env.PROJECT_RAIN_LOADER_URL;
 local queue = queue_on_teleport or (syn and syn.queue_on_teleport);
 if type(queue) ~= "function" then
-    warn("[Project Rain] Teleport queue is unavailable.");
+    warn("[Project Ponytail] Teleport queue is unavailable.");
     return false;
 end;
 if type(url) ~= "string" or not url:match("^https://") then
-    warn("[Project Rain] Bundle autoload needs an explicit HTTPS PROJECT_RAIN_LOADER_URL.");
+    warn("[Project Ponytail] Bundle autoload needs an explicit HTTPS PROJECT_RAIN_LOADER_URL.");
     return false;
 end;
 local source = env.PROJECT_RAIN_SOURCE_URL;

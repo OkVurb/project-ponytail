@@ -716,7 +716,7 @@ local function load_portrait()
 
     pcall(function()
         if not isfile(PORTRAIT_PATH) then
-            warn("[Project Rain] Optional Brayden portrait is missing: " .. PORTRAIT_PATH);
+            warn("[Project Ponytail] Optional Brayden portrait is missing: " .. PORTRAIT_PATH);
             return;
         end;
 

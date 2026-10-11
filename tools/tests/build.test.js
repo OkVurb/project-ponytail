@@ -20,6 +20,37 @@ test('feature manifest excludes data and bootstrap modules but includes nested f
     '@src/features/misc/mod_detector/mod_detector', '@src/features/buttons/teleports/aratel']) assert.equal(isFeature(id), true, id);
 });
 test('no missing static requires or assets', () => assert.deepEqual(audit().missing, []));
+test('Project Ponytail branding preserves save paths and loader settings', () => {
+  const read = file => fs.readFileSync(path.join(root, file), 'utf8');
+  assert.equal(JSON.parse(read('package.json')).name, 'project-ponytail');
+  const project = JSON.parse(read('default.project.json'));
+  assert.equal(project.name, 'ProjectPonytail');
+  assert.equal(project.tree.ReplicatedStorage.ProjectPonytail.$path, 'src');
+  for (const file of ['src/main_menu/loader.lua', 'src/features/auto-parry/builder.lua',
+    'src/features/misc/linoria_watermark.lua', 'src/ui/ui.lua', 'src/utility/ui/wrapper.lua']) {
+    assert.match(read(file), /Project Ponytail|Ponytail<\/font>/, file);
+    assert.doesNotMatch(read(file), /project rain(?![\/\\])|pr <font|nextgen/i, file);
+  }
+  for (const file of ['src/utility/webhook.lua', 'src/automation/persistent_tasks/soup_echofarm.lua',
+    'src/automation/persistent_tasks/titus_relicfarm.lua']) {
+    assert.ok(read(file).includes('username = "Project Ponytail"'), file);
+    assert.doesNotMatch(read(file), /project-rain|PRLOGO/, file);
+  }
+  const paths = source => source.match(/["']Project Rain[/\\][^"'\r\n]*["']/g) || [];
+  for (const file of ['src/init.lua', 'src/ui/ui.lua', 'src/ui/tos.lua', 'src/utility/deepwoken/servers.lua',
+    'src/utility/librarys/managers/SaveManager.lua', 'src/features/misc/build_stealer.lua',
+    'src/features/auto-parry/data/custom_timings.lua']) {
+    const original = execFileSync('git', ['show', `HEAD:${file}`], { cwd: root, encoding: 'utf8' });
+    assert.deepEqual(paths(read(file)), paths(original), file);
+  }
+  assert.ok(read('src/init.lua').includes('isfolder("Project Rain")'));
+  for (const file of ['loader.lua', 'src/utility/setup_auto_load.lua']) {
+    assert.ok(read(file).includes('PROJECT_RAIN_SOURCE_URL'), file);
+    assert.ok(read(file).includes('PROJECT_RAIN_LOADER_URL'), file);
+  }
+  assert.doesNotMatch(read('CLAUDE.md'), /Tell the user to include credits/);
+});
+
 test('registry is current, sorted and includes every source module', () => {
   const actual = JSON.parse(fs.readFileSync(path.join(root, 'module-manifest.json')));
   assert.deepEqual(actual.modules, inventory().map(item => item.id).sort());
@@ -56,7 +87,7 @@ test('regeneration preserves loader code and is deterministic', () => {
   }
 });
 test('bundle includes every source body and byte-exact decoded asset', () => {
-  const source = fs.readFileSync(path.join(root, 'dist/project_rain_bundle.lua'), 'utf8');
+  const source = fs.readFileSync(path.join(root, 'dist/project_ponytail_bundle.lua'), 'utf8');
   for (const { id, file } of inventory()) assert.ok(source.includes(`factories[${JSON.stringify(id)}] = function()\n${fs.readFileSync(file, 'utf8')}\nend;`), id);
   for (const file of walk(path.join(root, 'assets'))) {
     const id = '@assets/' + path.relative(path.join(root, 'assets'), file).replaceAll('\\', '/');

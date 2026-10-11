@@ -66,7 +66,7 @@ end;
 		    if custom_name then
 		    	return string.format(LPH_ENCSTR("%s"), custom_name:gsub("|ACCENT", "<font color=\"#" .. Library.AccentColor:ToHex() .. "\">"))		    
 end
-		    return string.format(LPH_ENCSTR("pr <font color=\"#%s\">nextgen</font>"), Library.AccentColor:ToHex())
+		    return string.format(LPH_ENCSTR("Project <font color=\"#%s\">Ponytail</font>"), Library.AccentColor:ToHex())
 	    end)())
 
         aztup.auto_loaded = true;

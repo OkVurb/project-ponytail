@@ -32,7 +32,7 @@ function store:sync()
                 self.data[name] = convert(data);
             else
                 -- Keep the last valid entry when an edit is partial or malformed.
-                warn("[Project Rain] Invalid custom timing " .. name .. ": " .. tostring(source));
+                warn("[Project Ponytail] Invalid custom timing " .. name .. ": " .. tostring(source));
             end;
         end;
     end;

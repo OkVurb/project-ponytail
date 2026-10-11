@@ -72,7 +72,7 @@ local accentHex = (Library and Library.AccentColor or Color3.fromHex("6699cc")):
 Converted["_TextLabel"].Font = Enum.Font.Code
 Converted["_TextLabel"].RichText = true
 Converted["_TextLabel"].Text = ([[
-By accessing or using our service ("<font color="#%s">Project Rain</font>"), you agree to be bound by these Terms of Service.
+By accessing or using our service ("<font color="#%s">Project Ponytail</font>"), you agree to be bound by these Terms of Service.
 
 <b>Updates to this Agreement</b>
 <font color="rgb(116, 118, 125)"><b>We may revise this Agreement and its content at any time with a notice and all such revisions are effective immediately upon acceptance by when you click "Agree".</b></font>
@@ -358,7 +358,7 @@ Converted._Deny.MouseButton1Click:Connect(function()
     game:GetService("TweenService"):Create(Music, TweenInfo.new(2), { Volume = 0 }):Play();
     game:GetService("Debris"):AddItem(Music, 2);
     game:GetService("Debris"):AddItem(Converted["_ScreenGui"], 2);
-    game.Players.LocalPlayer:Kick("You must accept the Terms of Service to use PR.");
+    game.Players.LocalPlayer:Kick("You must accept the Terms of Service to use Project Ponytail.");
     task.wait()
            
     local roblox_prompt_gui = services.CoreGui:FindFirstChild("RobloxPromptGui")
@@ -367,8 +367,8 @@ Converted._Deny.MouseButton1Click:Connect(function()
     end
 
     roblox_prompt_gui.promptOverlay.ErrorPrompt.TitleFrame.ErrorTitle.TextColor3 = Color3.fromRGB(125, 196, 228)
-    roblox_prompt_gui.promptOverlay.ErrorPrompt.TitleFrame.ErrorTitle.Text = "Project Rain"
-    roblox_prompt_gui.promptOverlay.ErrorPrompt.MessageArea.ErrorFrame.ErrorMessage.Text = "You must accept the Terms of Service to use PR"
+    roblox_prompt_gui.promptOverlay.ErrorPrompt.TitleFrame.ErrorTitle.Text = "Project Ponytail"
+    roblox_prompt_gui.promptOverlay.ErrorPrompt.MessageArea.ErrorFrame.ErrorMessage.Text = "You must accept the Terms of Service to use Project Ponytail"
 end)
 
 repeat task.wait() until accepted;

@@ -6,11 +6,11 @@ return function()
     local root = character and character:FindFirstChild("HumanoidRootPart");
     if refreshing or not root then return false; end;
     if EffectReplicator and (EffectReplicator:FindEffect("Danger") or EffectReplicator:FindEffect("Combat")) then
-        warn("[Project Rain] Cannot refresh while in combat.");
+        warn("[Project Ponytail] Cannot refresh while in combat.");
         return false;
     end;
     if type(replicatesignal) ~= "function" then
-        warn("[Project Rain] Refresh needs replicatesignal. Use the game's normal reset instead.");
+        warn("[Project Ponytail] Refresh needs replicatesignal. Use the game's normal reset instead.");
         return false;
     end;
     local saved = root.CFrame;
@@ -32,7 +32,7 @@ return function()
     task.delay(20, function()
         if refreshing ~= connection then return; end;
         connection:Disconnect(); refreshing = nil;
-        warn("[Project Rain] Refresh timed out waiting for a new character.");
+        warn("[Project Ponytail] Refresh timed out waiting for a new character.");
     end);
     return true;
 end;

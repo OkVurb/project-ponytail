@@ -55,7 +55,7 @@ end
         stats = {
             buildName = string.format("%s %s's Stolen Build", os.date("%B %d %Y"), player.Name),
             buildDescription = "Talents are not stealable anymore - This is just the opponents stats.",
-            buildAuthor = "project-rain.net",
+            buildAuthor = "Project Ponytail",
             power = level,
             pointsUntilNextPower = 67,
             points = 67,
@@ -248,7 +248,7 @@ end
     if not isfolder("Project Rain/Stolen Builds") then
         makefolder("Project Rain/Stolen Builds")
     end
-    writefile("Project Rain/Stolen Builds/" .. path .. ".txt", string.format([[https://project-rain.net
+    writefile("Project Rain/Stolen Builds/" .. path .. ".txt", string.format([[Project Ponytail
 stolen on %s
 build url: %s
 %s]], os.date("%B %d %Y"), buildUrl, data.content.notes));
