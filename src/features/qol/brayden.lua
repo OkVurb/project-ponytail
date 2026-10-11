@@ -716,7 +716,8 @@ local function load_portrait()
 
     pcall(function()
         if not isfile(PORTRAIT_PATH) then
-            writefile(PORTRAIT_PATH, decode_asset(inline_asset_b96("@assets/brayden.png")));
+            warn("[Project Rain] Optional Brayden portrait is missing: " .. PORTRAIT_PATH);
+            return;
         end;
 
         Converted["_Portrait"].Image = getcustomasset(PORTRAIT_PATH);

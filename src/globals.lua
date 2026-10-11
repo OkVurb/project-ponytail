@@ -94,3 +94,16 @@ local place_name = ({
     [6832944305] = "Arena",
     [8668476218] = "Dungeon",
 })[game.PlaceId];
+
+-- These were shared lexical variables in the private build. Export them for
+-- function-wrapped OSS modules, without changing the existing hook code.
+env.is_eastern = is_eastern;
+env.is_depths = is_depths;
+env.is_etrean = is_etrean;
+env.is_chime = is_chime;
+env.is_dungeon = is_dungeon;
+env.is_regular = is_regular;
+env.parallel_hooks_allowed = parallel_hooks_allowed;
+env.place_name = place_name;
+env.fireproximityprompt = fireproximityprompt;
+return true;

@@ -50,7 +50,8 @@ task.spawn(xpcall, handle_dev_tools, warn);
 
 env = getgenv();
 if not LPH_OBFUSCATED then
-    pcall(function() require(LPH_ENCSTR("@src/utility/librarys/luraph_sdk")); end);
+    local ok, err = pcall(require, LPH_ENCSTR("@src/utility/librarys/luraph_sdk"));
+    if not ok then warn("[Project Rain] Optional SDK: " .. tostring(err)); end;
 end; 
 
 xpcall(function()
@@ -171,7 +172,7 @@ local success, result = pcall(function()
 end);
 
 if not success or not result then 
-    return game:GetService("Players").LocalPlayer:Kick("[pr] failed to hook, kicking to prevent bans\n" .. result)
+    return game:GetService("Players").LocalPlayer:Kick("[pr] failed to hook, kicking to prevent bans\n" .. tostring(result))
 end; 
 
 do 
@@ -266,7 +267,7 @@ if game.PlaceId == 4111023553 then
     
     
     task.spawn(xpcall, function() 
-        require("@src/main_menu/loader");
+        require("@src/main_menu/loader")();
     end, warn)
 
     return true
@@ -300,9 +301,9 @@ aztup.automation.initialize();
 
 require(("@src/features/auto-parry/block-input-manager"))
 require(("@src/features/loader")).initialize();
-task.spawn(pcall, function() 
+task.spawn(xpcall, function()
     require(LPH_ENCSTR("@src/features/auto-parry/handlers/animator-handler"));
-end)
+end, warn)
 chance_store = require("@src/features/auto-parry/data/chance_store")
 getgenv().chance_store = chance_store;
 require(LPH_ENCSTR("@src/ui/ui")).initialize();

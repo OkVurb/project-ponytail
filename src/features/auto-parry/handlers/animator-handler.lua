@@ -214,6 +214,7 @@ return LPH_NO_VIRTUALIZE(function()
 end;
     
     getgenv().load_timings = function(b)
+        custom_timings:sync();
         (aztup and aztup.silent_mode and function() end or debug.profilebegin)("reload timings");
         local a = 0;
         for _, file in ipairs(listfiles("rw_timings")) do

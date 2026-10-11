@@ -1,19 +1,22 @@
---[[ Private build ran Luarmor's key/auth flow here. Reduced to a no-auth shim. ]]
+-- OSS compatibility only. This does not authenticate with Luarmor.
+local env = getgenv();
+env.LPH_OBFUSCATED = false;
+env.LRM_ScriptName = env.LRM_ScriptName or "Project Rain";
+env.script_key = env.script_key or "no-key";
+env.luarmor_preload_time = tick();
+env.luarmor_preload_time_debug = env.luarmor_preload_time;
+local function identity(...) return ...; end;
+env.STR_TBL_SF_INVOKE = identity;
+env.PROT_OBF_STR_SAFE_MACRO = identity;
+env.AUTH_GET_CONSTANT = identity;
 require("@src/globals");
-
-LPH_OBFUSCATED = LPH_OBFUSCATED or false;
-LRM_ScriptName = LRM_ScriptName or "Project Rain";
-
-script_key = script_key or "no-key";
-getgenv().script_key = script_key;
-
-luarmor_preload_time = luarmor_preload_time or tick();
-luarmor_preload_time_debug = luarmor_preload_time_debug or luarmor_preload_time;
-
-STR_TBL_SF_INVOKE = STR_TBL_SF_INVOKE or function(s) return s end;
-PROT_OBF_STR_SAFE_MACRO = PROT_OBF_STR_SAFE_MACRO or function(...) return ... end;
-AUTH_GET_CONSTANT = AUTH_GET_CONSTANT or function(...) return ... end;
-
-if not list_modules then list_modules = function() return {} end end;
-
+env.Feature = require("@src/features/generic_feature");
+env.aztup_toggles = {};
+env.aztup_options = {};
+if env.allowed_to_load_timings == nil then env.allowed_to_load_timings = true; end;
+if env.can_edit_internal_timings == nil then env.can_edit_internal_timings = false; end;
+env.timing_names = function() return {}; end;
+env.effect_names = {};
+env.load_timings = function() warn("[Project Rain] Timing handler is not ready."); end;
+assert(type(list_modules) == "function", "Use loader.lua or the generated bundle; module discovery is required.");
 return true;

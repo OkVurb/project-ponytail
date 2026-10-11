@@ -1,6 +1,6 @@
 local tabs = {};
 
-local spotify_widget = require("@src/features/misc/spotify_widget");
+-- The private Spotify widget was stripped and is not used by this tab.
 
 
 function tabs:create_fast_flags(tab)

@@ -1,4 +1,4 @@
---[[ Menu-place (4111023553) loader stub. Builds a tiny join UI. ]]
+-- Menu-place UI. Uses the same Start remote already referenced by init.lua.
 return function()
     if game:GetService("CoreGui"):FindFirstChild("PR_Menu") then return end;
     local gui = Instance.new("ScreenGui");
@@ -35,8 +35,13 @@ return function()
     Instance.new("UICorner", join).CornerRadius = UDim.new(0, 6);
 
     join.MouseButton1Click:Connect(function()
-        pcall(function()
-            game:GetService("TeleportService"):Teleport(5735553160);
+        local ok, err = pcall(function()
+            local requests = services.ReplicatedStorage:FindFirstChild("Requests");
+            local menu = requests and requests:FindFirstChild("StartMenu");
+            local start = menu and menu:FindFirstChild("Start");
+            assert(start, "StartMenu.Start is unavailable; use the normal game menu.");
+            start:FireServer();
         end);
+        if not ok then warn("[Project Rain] Menu: " .. tostring(err)); end;
     end);
 end;
