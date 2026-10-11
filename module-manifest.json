@@ -47,6 +47,7 @@
     "@src/features/auto-parry/data/encrypted_timing_data",
     "@src/features/auto-parry/data/mantra",
     "@src/features/auto-parry/data/projectile_timings",
+    "@src/features/auto-parry/data/timeline",
     "@src/features/auto-parry/data/timing_schema",
     "@src/features/auto-parry/data/weapon",
     "@src/features/auto-parry/defend-action-manager",
@@ -61,6 +62,7 @@
     "@src/features/auto-parry/handlers/part-handler",
     "@src/features/auto-parry/hitbox_simulator",
     "@src/features/auto-parry/services/position_prediction_service",
+    "@src/features/auto-parry/util/animation_watcher",
     "@src/features/auto-parry/util/target-filter",
     "@src/features/automation/auto_brutus",
     "@src/features/automation/auto_chime_requeue",
@@ -272,6 +274,7 @@
     "@src/utility/signal",
     "@src/utility/statemachine",
     "@src/utility/stored_damage_registry",
+    "@src/utility/string_map",
     "@src/utility/ui/wrapper",
     "@src/utility/urlencoding",
     "@src/utility/webhook"

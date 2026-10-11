@@ -653,12 +653,13 @@ end;
     other:newSlider("info_logger_range", "Timing Logger Range", 1, 1, 500, 0, true, "s");
     local timing_builder = require("@src/features/auto-parry/builder");
     local timings = tab:newGroupBox("Timing Builder", true);
-    timings:newToggleWithKeybind("show_timing_builder", "Show Timing Builder", false, "Make your own parry timings. Enter a numeric animation ID and ordered actions in the custom JSON editor, then Save JSON.", function(val)
+    timings:newToggleWithKeybind("show_timing_builder", "Show Timing Builder", false, "Watch animations, select one and Use ID. Apply JSON, drag action times or enter seconds, then Save JSON. Calibrate hitbox/offset in JSON.", function(val)
         timing_builder:set_visible(val);
     end);
     timing_builder.on_close = function()
         aztup_toggles.show_timing_builder:SetValue(false);
     end;
+    timing_builder.on_open = function() aztup_toggles.show_timing_builder:SetValue(true); end;
 
     timings:newButton("Reload Timings", function()
         xpcall(getgenv().load_timings, warn); 

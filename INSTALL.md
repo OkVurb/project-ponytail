@@ -36,6 +36,18 @@ Without the interpreter, the runtime test is explicitly skipped. Without the com
 
 Open the generated `dist/project_ponytail_bundle.lua` in your executor's script editor and execute that file. Do not execute `src/init.lua` by itself. The bundle supplies the shared module environment, native ModuleScript forwarding, multi-return module cache, module discovery, and assets.
 
+For a short launcher, copy that bundle into your executor's **workspace folder** as `project_ponytail_bundle.lua`. This means the folder used by its `readfile` API, not the Roblox Workspace or this repository. Then paste [executor.lua](executor.lua) into its script editor:
+
+```lua
+repeat task.wait() until game:IsLoaded();
+assert(type(readfile) == "function", "This launcher needs executor filesystem access.");
+local run, reason = loadstring(readfile("project_ponytail_bundle.lua"), "@ProjectPonytail");
+assert(run, reason);
+run();
+```
+
+This launcher reads only the local file and waits for the game to load. It does not fetch the old Project Rain service or authenticate with Luarmor, and it does not require the original script key. Copy a fresh bundle after rebuilding. If you see a file-not-found error, check the filename and your executor's workspace folder.
+
 The code targets Deepwoken and executor APIs. It is not an ordinary Roblox Studio LocalScript. The Rojo map is only a source layout for inspecting the tree in Studio.
 
 ### Source loader
@@ -72,9 +84,19 @@ Refresh requires `replicatesignal` and the game's reset signal. Without that cap
 
 Initialization preserves the original hook-before-feature-before-UI sequence. The hook implementation is unchanged. Its existing failure path still kicks; this is not a guarantee against detection or account penalties.
 
-## Custom timing editor
+## Custom timing builder
 
-The Combat tab opens a small JSON editor, not the unreleased animation-watching or draggable timeline tool. Enter a real numeric animation ID, edit ordered actions, then select **Save JSON**. Existing custom files appear in its list.
+Open **Show Timing Builder** in the Combat tab. Existing custom files appear on the left. For a new timing:
+
+1. Select **New**. Enter a real numeric animation ID in JSON, or select an observed animation and choose **Use ID**. Use ID replaces the draft's IDs; observing a track alone never changes the draft.
+2. Choose **Apply JSON** to validate the draft and draw its actions. Drag a time marker with a mouse or touch, or select an action and enter its time in seconds. Previous/Next also select actions without dragging.
+3. Use the action-type button, **+ Action**, and **Delete** to edit actions. Time edits round to milliseconds and keep actions sorted. Equal-time actions keep their existing order.
+4. Edit the name, move type, hitbox, and offset in JSON. Apply text changes before dragging. Invalid text is kept for correction, not replaced by the last applied draft.
+5. Choose **Save JSON** to write the custom file and refresh its lookup. Closing and reopening preserves the unsaved draft in memory. New or selecting another file replaces that draft without saving it.
+
+The watcher observes client-visible Animators under `workspace.Live`, or the workspace if that folder is absent. It includes already-playing tracks and newly added Animators, keeps the latest 40 observations, and shows the selected track's position, duration, speed, and playhead. Closing the builder disconnects its watcher and input/render subscriptions. The timing logger's existing Load Track action also opens the builder and selects the track.
+
+It never plays, stops, scrubs, or changes an observed game animation. This is a new public implementation, not recovery of the private builder. The template's hitbox, offset, and delay are examples requiring real calibration. The interface targets desktop/tablet-sized viewports; live rendering and touch behavior still need checking in the game.
 
 Files are saved under `Project Rain/Custom Timings/<name>.json` in the executor filesystem. Saving the same name replaces that custom file. Names permit only letters, numbers, underscores, and hyphens, up to 64 characters. Changing a name creates another file; it does not delete the old one.
 
@@ -91,7 +113,8 @@ The original `rw_timings` loader remains separate and can execute Lua timing fil
 
 ## Known release gaps and credits
 
-- Private mantra, mesh-name, and historical staff maps are unavailable. Explicit empty maps warn instead of inventing data. Existing server-name, generic dropped-item, and live group-rank fallbacks remain.
+- The released mantra and mesh-name maps now load through the compressed-asset pipeline. These historical maps are not guaranteed current or complete. Unknown entries retain the existing fallbacks. See [DATA_PROVENANCE.md](DATA_PROVENANCE.md).
+- The historical staff-map stub remains unchanged. No staff-detection or hook behavior was expanded in this follow-up.
 - `assets/base.json` is empty in the release. Existing `extra_data.json` and source-defined timings are preserved, but coverage is not complete or independently calibrated.
 - The missing Brayden portrait is optional and is skipped with a warning unless you provide the expected local image. The unused missing Spotify import was removed.
 - A failed feature import is reported and skipped. Successful initialization does not imply that every original feature works with today's game.

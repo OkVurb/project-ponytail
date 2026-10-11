@@ -42,7 +42,7 @@ assert(not pcall(runtime.require, "@src/retry")); fails = false; assert(runtime.
 assert(not pcall(runtime.require, "@src/missing"));
 assert(runtime.require("@src/writer") == 42 and global.shared_value == 42);
 assert(host.require ~= runtime.require, "Native require must not be overwritten");
-assert(#runtime.list_modules("features/auto-parry/data/*") == 2);
+assert(#runtime.list_modules("features/auto-parry/data/*") == 3);
 assert(#runtime.list_modules("nested/*") == 1);
 assert(#runtime.list_modules("*") == 8);
 assert(runtime.env.inline_asset_b96("@assets/x") == "encoded");
@@ -84,6 +84,9 @@ invalid.actions = { { when = 0.5, type = "Parry", hitbox = { X = -1, Y = 0, Z = 
 invalid.actions = { { when = 1, type = "Parry" }, { when = 0.5, type = "Parry" } }; assert(not pcall(schema.validate, invalid));
 invalid = table.clone(valid); invalid.run = "not executable"; assert(not pcall(schema.validate, invalid));
 invalid = table.clone(valid); invalid.actions = { { when = 0, type = "Parry", enc = true } }; assert(not pcall(schema.validate, invalid));
+invalid = table.clone(valid); invalid.ids = { "123", extra = "not-an-array" }; assert(not pcall(schema.validate, invalid));
+invalid = table.clone(valid); invalid.actions = { [1] = valid.actions[1], [3] = valid.actions[1] }; assert(not pcall(schema.validate, invalid));
+invalid = table.clone(valid); invalid.actions = { { when = 0, type = "Parry", offset = { X = 0, Y = 0, Z = 0, unexpected = true } } }; assert(not pcall(schema.validate, invalid));
 local disk = {}; local folder = false;
 global.isfolder = function() return folder; end;
 global.makefolder = function() folder = true; end;

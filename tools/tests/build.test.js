@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const zlib = require('node:zlib');
+const crypto = require('node:crypto');
 const { spawnSync, execFileSync } = require('node:child_process');
 const { root, dependencies, isFeature, inventory, walk, resolveTarget } = require('../project');
 const { audit } = require('../audit-requires');
@@ -20,6 +21,25 @@ test('feature manifest excludes data and bootstrap modules but includes nested f
     '@src/features/misc/mod_detector/mod_detector', '@src/features/buttons/teleports/aratel']) assert.equal(isFeature(id), true, id);
 });
 test('no missing static requires or assets', () => assert.deepEqual(audit().missing, []));
+test('restored public lookup maps are unchanged and match consumer key shapes', () => {
+  const specs = [
+    ['assets/mantras.json', 'src/features/removals/mantra_revealer/mantras.json', 229, 'Smash:Ice', 'Ice Smash'],
+    ['assets/deepwoken_meshes.json', 'src/utility/deepwoken/deepwoken_meshes.json', 534, '5707296382', 'Training Vest'],
+  ];
+  for (const [file, originalPath, count, key, value] of specs) {
+    const data = JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'));
+    const original = JSON.parse(execFileSync('git', ['show', `6633f27:${originalPath}`], { cwd: root, encoding: 'utf8' }));
+    assert.deepEqual(data, original, file);
+    assert.equal(Object.keys(data).length, count);
+    assert.equal(data[key], value);
+    for (const [id, name] of Object.entries(data)) {
+      assert.equal(typeof name, 'string'); assert.ok(name.length);
+      if (file.includes('meshes') && id !== '%202877143560%20') assert.match(id, /^\d+$/);
+    }
+  }
+  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root, 'assets/base.json'))).digest('hex'),
+    '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945');
+});
 test('Project Ponytail branding preserves save paths and loader settings', () => {
   const read = file => fs.readFileSync(path.join(root, file), 'utf8');
   assert.equal(JSON.parse(read('package.json')).name, 'project-ponytail');
@@ -114,15 +134,40 @@ test('actual Luau runtime, initialization, features and timing storage with expl
   const dir = fs.mkdtempSync(path.join(root, '.tools/runtime-test-'));
   try {
     const files = ['globals', 'luarmor_init_script', 'features/generic_feature', 'features/loader', 'utility/profiler',
-      'features/auto-parry/data/timing_schema', 'features/auto-parry/data/custom_timings', 'features/buttons/refresh'];
+      'features/auto-parry/data/timing_schema', 'features/auto-parry/data/custom_timings', 'features/buttons/refresh',
+      'features/auto-parry/data/timeline', 'features/auto-parry/util/animation_watcher', 'features/auto-parry/builder',
+      'utility/string_map', 'features/removals/mantra_revealer/mantras', 'utility/deepwoken/deepwoken_meshes'];
     const parts = ['local factories = {};'];
     for (const id of files) parts.push(`factories["@src/${id}"] = function()\n${fs.readFileSync(path.join(root, 'src', id + '.lua'), 'utf8')}\nend;`);
     parts.push(`local create_runtime = (function()\n${fs.readFileSync(path.join(root, 'tools/runtime.lua'), 'utf8')}\nend)();`);
     parts.push(fs.readFileSync(path.join(__dirname, 'runtime.luau'), 'utf8'));
+    parts.push(fs.readFileSync(path.join(__dirname, 'builder.luau'), 'utf8'));
+    parts.push(`local launcher = function()\n${fs.readFileSync(path.join(root, 'executor.lua'), 'utf8')}\nend;
+local loaded, waits, ran = false, 0, false;
+local launcher_env = setmetatable({
+  game = { IsLoaded = function() return loaded; end },
+  task = { wait = function() waits += 1; loaded = true; end },
+  readfile = function(file) assert(file == "project_ponytail_bundle.lua"); return "fixture bundle"; end,
+  loadstring = function(source, name)
+    assert(source == "fixture bundle" and name == "@ProjectPonytail");
+    return function() ran = true; return "launched"; end;
+  end,
+}, { __index = getfenv() });
+setfenv(launcher, launcher_env);
+assert(launcher() == "launched" and ran and waits == 1);
+launcher_env.loadstring = function() return nil, "invalid bundle fixture"; end;
+local ok, err = pcall(launcher); assert(not ok and tostring(err):find("invalid bundle fixture", 1, true));
+launcher_env.readfile = function() error("missing bundle fixture"); end;
+ok, err = pcall(launcher); assert(not ok and tostring(err):find("missing bundle fixture", 1, true));
+launcher_env.readfile = false;
+ok, err = pcall(launcher); assert(not ok and tostring(err):find("filesystem access", 1, true));
+print("Executor launcher mock checks passed");`);
     const script = path.join(dir, 'run.luau'); fs.writeFileSync(script, parts.join('\n'));
     const result = spawnSync(executable, [script], { cwd: root, encoding: 'utf8', timeout: 30000 });
     assert.equal(result.status, 0, result.stdout + result.stderr);
     assert.match(result.stdout, /Runtime mock checks passed/);
+    assert.match(result.stdout, /Builder and watcher mock checks passed/);
+    assert.match(result.stdout, /Executor launcher mock checks passed/);
   } finally {
     assert.ok(dir.startsWith(path.join(root, '.tools') + path.sep));
     fs.rmSync(dir, { recursive: true });

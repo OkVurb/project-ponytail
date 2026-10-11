@@ -8,7 +8,7 @@ if (!fs.existsSync(executable)) {
   console.error('Set LUAU_COMPILE to an official luau-compile executable, or place it in .tools/luau. See INSTALL.md.');
   process.exit(1);
 }
-const files = [...inventory().map(item => item.file), path.join(root, 'loader.lua'), path.join(root, 'tools/runtime.lua'),
+const files = [...inventory().map(item => item.file), path.join(root, 'loader.lua'), path.join(root, 'executor.lua'), path.join(root, 'tools/runtime.lua'),
   ...walk(path.join(root, 'assets')).filter(file => file.endsWith('.lua'))];
 const output = path.join(root, 'dist/project_ponytail_bundle.lua');
 if (fs.existsSync(output)) files.push(output);

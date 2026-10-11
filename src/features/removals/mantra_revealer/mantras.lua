@@ -1,4 +1,1 @@
--- Private mystery-card lookup was not included in the release. Consumers
--- already fall back to the server-provided MantraName; do not invent mappings.
-warn("[Project Ponytail] Mystery-card lookup unavailable; using live names where supplied.");
-return {};
+return require("@src/utility/string_map")(inline_asset_b96("@assets/mantras.json"));
